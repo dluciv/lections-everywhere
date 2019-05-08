@@ -21,6 +21,16 @@ def plot_r_p_nl():
     plt.ylabel('Репа')
     plt.xlabel('Потроха')
     plt.plot(xs, ys)
+    plt.savefig("../12.linear-can-log.svg")
+
+
+def plot_r_p_cant():
+    xs = numpy.r_[0:1:1/100.0]
+    ys = [(0.8 * x + 0.2 * math.sin(20*x)) * x for x in xs]
+
+    plt.ylabel('Репа')
+    plt.xlabel('Потроха')
+    plt.plot(xs, ys)
     plt.savefig("../12.linear-cant.svg")
 
 
@@ -50,6 +60,8 @@ if __name__ == '__main__':
     plot_r_p()
     plt.clf()
     plot_r_p_nl()
+    plt.clf()
+    plot_r_p_cant()
     plt.clf()
     plot_sin(True)
     plt.clf()
