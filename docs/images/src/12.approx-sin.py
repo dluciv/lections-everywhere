@@ -6,7 +6,7 @@ import numpy
 import matplotlib.pyplot as plt
 import itertools
 
-lam = 0.2
+lam = 0.1
 
 def sigma(x):
     return 1.0 / (1.0 + math.exp(-x))
