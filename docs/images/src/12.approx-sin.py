@@ -7,25 +7,26 @@ import matplotlib.pyplot as plt
 import itertools
 
 lam = 0.1
+n = 8
+a = 100 / math.pi
+bs = numpy.arange(n) / n * math.pi / 2
+
 
 def sigma(x):
     return 1.0 / (1.0 + math.exp(-x))
 
+
 def dsigma_dx(x):
     return sigma(x) * (1.0 - sigma(x))
 
-n = 8
-a = 100 / math.pi
-bs = numpy.arange(n) / n * math.pi / 2
-# bs = max(bs) - bs  # !!!!!
-# print(bs)
-print(n)
 
 def exact(x):
     return math.sin(x)
 
+
 def approx(x):
     return sum(sigma(a*(x - b)) for b in bs) / n
+
 
 def dapprox_dbi(x, i):
     return - sum(
@@ -41,6 +42,7 @@ def iterate():
         for i in range(n):
             dbs[i] = lam * (exact(x) - approx(x)) *  dapprox_dbi(x, i)
         bs += dbs
+
 
 def plot():
     xs = numpy.arange(500) / 500 * math.pi / 2
