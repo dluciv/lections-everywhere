@@ -17,7 +17,7 @@ def dsigma_dx(x):
 n = 8
 a = 100 / math.pi
 bs = numpy.arange(n) / n * math.pi / 2
-bs -= max(bs)
+# bs = max(bs) - bs  # !!!!!
 # print(bs)
 print(n)
 
@@ -25,12 +25,11 @@ def exact(x):
     return math.sin(x)
 
 def approx(x):
-    # return sigma(a*x + bs[0] - 2)
-    return sum(sigma(a*(x + b)) for b in bs) / n
+    return sum(sigma(a*(x - b)) for b in bs) / n
 
-def dapprox_db(x, i):
-    return sum(
-        dsigma_dx(a*(x + b)) if j==i else 0
+def dapprox_dbi(x, i):
+    return - sum(
+        dsigma_dx(a*(x - b)) if j==i else 0
         for b, j in zip(bs, itertools.count())
     ) * a / n
 
@@ -38,13 +37,13 @@ def dapprox_db(x, i):
 def iterate():
     global bs
     dbs = bs * 0
-    for i in range(n):
-        x = -bs[i]
-        dbs[i] = lam * (exact(x) - approx(x)) *  dapprox_db(x, i)
-    bs += dbs
+    for x in numpy.arange(20) / 20 * math.pi / 2:
+        for i in range(n):
+            dbs[i] = lam * (exact(x) - approx(x)) *  dapprox_dbi(x, i)
+        bs += dbs
 
 def plot():
-    xs = numpy.arange(500) / 500 * math.pi / 1.5
+    xs = numpy.arange(500) / 500 * math.pi / 2
     plt.plot(xs, [approx(x) for x in xs])
     plt.plot(xs, [exact(x) for x in xs])
 
